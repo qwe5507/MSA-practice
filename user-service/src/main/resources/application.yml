@@ -4,6 +4,9 @@ server:
 spring:
   application:
     name: user-service
+  jpa:
+    hibernate:
+      ddl-auto: create
   h2:
     console:
       enabled: true
