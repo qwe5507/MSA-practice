@@ -5,9 +5,11 @@ import com.example.userservice.service.UserService;
 import com.example.userservice.vo.Greeting;
 import com.example.userservice.vo.RequestUser;
 import com.example.userservice.vo.ResponseUser;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,13 +21,14 @@ public class UserController {
 
     private final Greeting greeting;
     private final UserService userService;
+    private final Environment env;
 
-    @GetMapping("/health_check")
-    public String status() {
-        return "It's Working in User Service.";
+    @GetMapping("/user-service/health_check")
+    public String status(HttpServletRequest request) {
+        return String.format("It's Working in User Service on Port %s", request.getServerPort());
     }
 
-    @GetMapping("/welcome")
+    @GetMapping("/user-service/welcome")
     public String welcome() {
         return greeting.getMessage();
     }

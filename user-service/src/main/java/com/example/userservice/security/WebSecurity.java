@@ -20,7 +20,8 @@ public class WebSecurity {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, HandlerMappingIntrospector introspect) throws Exception {
         http.authorizeHttpRequests(request -> request.requestMatchers(PathRequest.toH2Console()).permitAll()
-                                .requestMatchers(new MvcRequestMatcher(introspect, "/users/**")).permitAll())
+                                .requestMatchers(new MvcRequestMatcher(introspect, "/users/**")).permitAll()
+                                .anyRequest().permitAll())
                                 .csrf(csrf -> csrf.disable())
                                 .headers(header -> header.frameOptions(
                                         frameOptionsConfig -> frameOptionsConfig.disable()
