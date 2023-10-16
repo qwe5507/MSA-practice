@@ -1,5 +1,6 @@
 package com.example.userservice.security;
 
+import com.example.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -27,6 +28,7 @@ import java.util.function.Supplier;
 @Slf4j
 public class WebSecurity {
     private final Environment env;
+    private final UserService userService;
     public static final String ALLOWED_IP_ADDRESS = "172.30.1.50";
     public static final String SUBNET = "/32";
     public static final IpAddressMatcher ALLOWED_IP_ADDRESS_MATCHER = new IpAddressMatcher(ALLOWED_IP_ADDRESS + SUBNET);
@@ -60,7 +62,7 @@ public class WebSecurity {
         return http.build();
     }
     private AuthenticationFilter getAuthenticationFilter(AuthenticationManager authenticationManager) {
-        AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManager);
+        AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManager, userService, env);
         return authenticationFilter;
     }
     @Bean
