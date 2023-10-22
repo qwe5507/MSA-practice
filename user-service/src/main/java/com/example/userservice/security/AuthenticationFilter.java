@@ -6,6 +6,9 @@ import com.example.userservice.vo.RequestLogin;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,18 +22,28 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.Date;
 
-@RequiredArgsConstructor
 @Slf4j
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
     private final Environment env;
+    private Key key;
+
+    public AuthenticationFilter(final AuthenticationManager authenticationManager, final UserService userService, final Environment env) {
+        this.authenticationManager = authenticationManager;
+        this.userService = userService;
+        this.env = env;
+        byte[] keyBytes = Decoders.BASE64.decode(env.getProperty("token.secret"));
+        this.key = Keys.hmacShaKeyFor(keyBytes);
+    }
 
     @Override
     public Authentication attemptAuthentication(final HttpServletRequest request,
@@ -65,7 +78,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .setSubject(userDto.getUserId())
                 .setExpiration(new Date(System.currentTimeMillis() +
                         Long.parseLong(env.getProperty("token.expiration_time"))))
-                .signWith(SignatureAlgorithm.HS512, env.getProperty("token.secret"))
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
         response.addHeader("token", token);
