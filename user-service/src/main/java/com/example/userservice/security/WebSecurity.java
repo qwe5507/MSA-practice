@@ -48,6 +48,7 @@ public class WebSecurity {
         http.authorizeHttpRequests(request ->
                                     request
                                             .requestMatchers(PathRequest.toH2Console()).permitAll()
+                                            .requestMatchers(new MvcRequestMatcher(introspect, "/actuator/**")).permitAll()
                                             .requestMatchers(new MvcRequestMatcher(introspect, "/**")).access(this::hasIpAddress)
 //                                            .anyRequest().authenticated()
                                     )
