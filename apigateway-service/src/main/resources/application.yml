@@ -9,9 +9,9 @@ eureka:
       defaultZone: http://localhost:8761/eureka
 
 spring:
-  application:
-    name: apigateway-service
   cloud:
+    config:
+      name: ecommerce
     gateway:
       default-filters:
         - name: GlobalFilter
@@ -37,6 +37,14 @@ spring:
           predicates:
             - Path=/user-service/users
             - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/actuator/**
+            - Method=GET,POST
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
@@ -78,8 +86,13 @@ spring:
                 baseMessage: Spring Cloud Gateway Global Filter
                 preLogger: true
                 postLogger: true
+  config:
+    import: optional:configserver:http://localhost:8888
+  application:
+    name: apigateway-service
 
-
-token:
-  expiration_time: 86400000
-  secret: '01234567890123456789012345678901234567890123456789'
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, httpexchanges
