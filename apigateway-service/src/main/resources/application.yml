@@ -9,6 +9,8 @@ eureka:
       defaultZone: http://localhost:8761/eureka
 
 spring:
+  profiles:
+    active: dev
   cloud:
     config:
       name: ecommerce
