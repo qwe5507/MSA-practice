@@ -25,6 +25,12 @@ spring:
     username: sa
     password:
     driverClassName: org.h2.Driver
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+
 
 eureka:
   instance:
@@ -50,4 +56,4 @@ management:
   endpoints:
     web:
       exposure:
-        include: refresh, health, beans
+        include: refresh, health, beans, busrefresh
