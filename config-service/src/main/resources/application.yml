@@ -29,3 +29,6 @@ management:
     web:
       exposure:
         exclude: health, busrefresh
+
+encrypt:
+  key: abcdefghijklmnopqrstuvwsyz0123456789
