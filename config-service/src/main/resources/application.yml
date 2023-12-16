@@ -31,4 +31,8 @@ management:
         exclude: health, busrefresh
 
 encrypt:
-  key: abcdefghijklmnopqrstuvwsyz0123456789
+#  key: abcdefghijklmnopqrstuvwsyz0123456789
+  key-store:
+    location: file://${user.home}/Desktop/Work/keystore/apiEncryptionKey.jks
+    password: 1q2w3e4r
+    alias: apiEncryptionKey
