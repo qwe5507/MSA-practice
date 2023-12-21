@@ -14,10 +14,12 @@ spring:
         web-allow-others: true
       path: /h2-console
   datasource:
-    url: jdbc:h2:tcp://localhost/~/testdb
-    username: sa
-    password:
     driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+#    tcp 연결
+#    url: jdbc:h2:tcp://localhost/~/testdb
+#    username: sa
+#    password:
 
 eureka:
   instance:
