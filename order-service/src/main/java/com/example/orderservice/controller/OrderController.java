@@ -9,6 +9,7 @@ import com.example.orderservice.vo.RequestOrder;
 import com.example.orderservice.vo.ResponseOrder;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.core.env.Environment;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @RestController
 @RequestMapping("/order-service")
 @RequiredArgsConstructor
@@ -36,6 +38,8 @@ public class OrderController {
 
     @PostMapping("/{userId}/orders")
     public ResponseEntity<ResponseOrder> createOrder(@PathVariable("userId") String userId, @RequestBody RequestOrder orderDetails) {
+        log.info("Before add orders data");
+
         final ModelMapper modelMapper = new ModelMapper();
 
         ModelMapper mapper = new ModelMapper();
@@ -57,10 +61,12 @@ public class OrderController {
 
 //        final ResponseOrder returnValue = modelMapper.map(orderDto, ResponseOrder.class);
 
+        log.info("After added orders data");
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
     }
     @GetMapping("/{userId}/orders")
     public ResponseEntity<List<ResponseOrder>> getOrders(@PathVariable("userId") String userId) {
+        log.info("Before retrieve orders data");
         final Iterable<OrderEntity> orderList = orderService.getOrdersByUserId(userId);
 
         List<ResponseOrder> result = new ArrayList<>();
@@ -68,6 +74,7 @@ public class OrderController {
             result.add(new ModelMapper().map(v, ResponseOrder.class));
         });
 
+        log.info("Add retrieved orders data");
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
