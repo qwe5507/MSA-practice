@@ -14,12 +14,16 @@ spring:
         web-allow-others: true
       path: /h2-console
   datasource:
-    driverClassName: org.h2.Driver
-    url: jdbc:h2:mem:testdb
+#    driverClassName: org.h2.Driver
+#    url: jdbc:h2:mem:testdb
 #    tcp 연결
 #    url: jdbc:h2:tcp://localhost/~/testdb
 #    username: sa
 #    password:
+    url: jdbc:mariadb://localhost:3306/mydb
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: root
+    password: test1357
 
 eureka:
   instance:
