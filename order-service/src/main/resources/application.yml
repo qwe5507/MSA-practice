@@ -4,12 +4,13 @@ server:
 spring:
   application:
     name: order-service
-  zipkin:
-    base-url: http://127.0.0.1:9411
-    enabled: true
-  sleuth:
-    sampler:
-      probability: 1.0
+#  spring boot 3.0 이전 zipkin, sleuth 설정
+#  zipkin:
+#    base-url: http://127.0.0.1:9411
+#    enabled: true
+#  sleuth:
+#    sampler:
+#      probability: 1.0
   jpa:
     hibernate:
       ddl-auto: update
@@ -40,6 +41,27 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka
 
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, busrefresh
+  #  spring boot 3.0 이후 zipkin, sleuth 설정
+  tracing:
+    sampling:
+      probability: 1.0
+    propagation:
+      consume: b3_multi
+      produce: b3_multi
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+
 logging:
   level:
     com.example.orderservice: DEBUG
+  pattern:
+    level: "%5p [%X{traceId:-},%X{spanId:-}]"

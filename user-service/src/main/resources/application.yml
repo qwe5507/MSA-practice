@@ -2,12 +2,13 @@ server:
   port: 0
 
 spring:
-  zipkin:
-    base-url: http://127.0.0.1:9411
-    enabled: true
-  sleuth:
-    sampler:
-      probability: 1.0
+#  spring boot 3.0 이전 zipkin, sleuth 설정
+#  zipkin:
+#    base-url: http://127.0.0.1:9411
+#    enabled: true
+#  sleuth:
+#    sampler:
+#      probability: 1.0
   #  profiles:
 #    active: dev
   cloud:
@@ -50,10 +51,6 @@ eureka:
 greeting:
   message: Welcome to the Simple E-commerce.
 
-logging:
-  level:
-    com.example.userservice.client: DEBUG
-
 #token:
 #  expiration_time: 86400000
 #  secret: '01234567890123456789012345678901234567890123456789'
@@ -69,6 +66,22 @@ management:
   health:
     circuitbreakers:
       enabled: true
+#  spring boot 3.0 이후 zipkin, sleuth 설정
+  tracing:
+    sampling:
+      probability: 1.0
+    propagation:
+      consume: b3_multi
+      produce: b3_multi
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+
+logging:
+  level:
+    com.example.userservice.client: DEBUG
+  pattern:
+    level: "%5p [%X{traceId:-},%X{spanId:-}]"
 
 resilience4j:
   circuitbreaker:
