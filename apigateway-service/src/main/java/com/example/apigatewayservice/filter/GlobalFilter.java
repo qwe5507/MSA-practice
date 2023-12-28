@@ -1,5 +1,6 @@
 package com.example.apigatewayservice.filter;
 
+import io.micrometer.core.annotation.Timed;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -21,6 +22,7 @@ public class GlobalFilter extends AbstractGatewayFilterFactory<GlobalFilter.Conf
     }
 
     @Override
+    @Timed("gateway.apply")
     public GatewayFilter apply(final Config config) {
         // Custom Pre Filter
 
