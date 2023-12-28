@@ -48,7 +48,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: refresh, health, beans, busrefresh
+        include: refresh, health, beans, busrefresh, info, metrics, prometheus
   #  spring boot 3.0 이후 zipkin, sleuth 설정
   tracing:
     sampling:

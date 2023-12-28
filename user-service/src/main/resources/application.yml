@@ -62,7 +62,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: refresh, health, beans, busrefresh, circuitbreakers
+        include: refresh, health, beans, busrefresh, circuitbreakers, info, metrics, prometheus
   health:
     circuitbreakers:
       enabled: true
