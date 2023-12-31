@@ -4,6 +4,11 @@ server:
 spring:
   application:
     name: discoveryservice
+  cloud:
+    config:
+      name: ecommerce
+  config:
+    import: optional:configserver:http://localhost:8888
 
 eureka:
   client:
