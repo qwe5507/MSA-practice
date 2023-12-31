@@ -5,7 +5,7 @@ spring:
   application:
     name: config-service
   profiles:
-    active: native
+    active: native # natvie일 경우 git을 무시, natvie가 아닐경우 default로 git을 사용
   rabbitmq:
     host: 127.0.0.1
     port: 5672
@@ -33,6 +33,7 @@ management:
 encrypt:
 #  key: abcdefghijklmnopqrstuvwsyz0123456789
   key-store:
-    location: file://${user.home}/Desktop/Work/keystore/apiEncryptionKey.jks
+#    location: file://${user.home}/Desktop/Work/keystore/apiEncryptionKey.jks
+    location: file:/apiEncryptionKey.jks
     password: 1q2w3e4r
     alias: apiEncryptionKey
