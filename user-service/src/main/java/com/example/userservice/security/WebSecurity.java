@@ -29,7 +29,8 @@ import java.util.function.Supplier;
 public class WebSecurity {
     private final Environment env;
     private final UserService userService;
-    public static final String ALLOWED_IP_ADDRESS = "172.30.1.50";
+//    public static final String ALLOWED_IP_ADDRESS = "172.30.1.50";
+    public static final String ALLOWED_IP_ADDRESS = "172.30.0.5"; //docker gateway ip
     public static final String SUBNET = "/32";
     public static final IpAddressMatcher ALLOWED_IP_ADDRESS_MATCHER = new IpAddressMatcher(ALLOWED_IP_ADDRESS + SUBNET);
 
