@@ -12,6 +12,9 @@ spring:
   #  profiles:
 #    active: dev
   cloud:
+    openfeign:
+      micrometer:
+        enabled: true
     config:
       name: user-service
   config:
@@ -71,11 +74,10 @@ management:
     sampling:
       probability: 1.0
     propagation:
-      consume: b3_multi
-      produce: b3_multi
-  zipkin:
-    tracing:
-      endpoint: http://localhost:9411/api/v2/spans
+      type: b3
+#  zipkin:
+#    tracing:
+#      endpoint: http://localhost:9411/api/v2/spans
 
 logging:
   level:
